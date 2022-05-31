@@ -15,6 +15,7 @@ import org.springframework.context.annotation.Configuration;
 @Configuration
 public class AppConfig {
 
+    //appConfig.xml에 해당 소스와 똑같은 설정파일 존재
     @Bean
     public MemberService memberService(){
         return new MemberServiceImpl(memberRepository());//생성자 주입 new해서 파라미터를 보낸다, MemoryMemberRepository의 참조값을 같이 넘긴다
