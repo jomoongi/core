@@ -18,5 +18,10 @@ public class MemberServiceImpl implements MemberService{
     public Member findMember(Long memberId) {
         return memberRepository.findById(memberId);
     }
+
+    //테스트 용도(Appconfig에서 보면 MemberRepository가 두번 호출되니 싱글톤이 깨지는것이 아닌가에 대한 테스트)
+    public MemberRepository getMemberRepository(){
+        return memberRepository;
+    }
 }
 

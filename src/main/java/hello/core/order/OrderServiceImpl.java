@@ -5,7 +5,7 @@ import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
 
-public class OrderServiceImpl implements OrderService{
+public class  OrderServiceImpl implements OrderService{
 
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
@@ -22,5 +22,10 @@ public class OrderServiceImpl implements OrderService{
         int discountPrice = discountPolicy.discount(member,itemPrice);
 
         return new Order(memberId,itemName,itemPrice,discountPrice);
+    }
+
+    //테스트 용도(Appconfig에서 보면 MemberRepository가 두번 호출되니 싱글톤이 깨지는것이 아닌가에 대한 테스트)
+    public MemberRepository getMemberRepository() {
+        return memberRepository;
     }
 }
