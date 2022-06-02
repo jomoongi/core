@@ -10,9 +10,11 @@ import org.springframework.stereotype.Component;
 @Component
 public class  OrderServiceImpl implements OrderService{
 
+    //DI 주입방식 중 @Autowired private MemberRepository memberRepository; 이런 방식은 스프링에서만 실행해야 테스트가 가능하고
+    //일반 자바코드로는 테스트 할 수가없다
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
-
+ 
     @Autowired
     public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
         this.memberRepository = memberRepository;
