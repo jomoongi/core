@@ -18,8 +18,8 @@ public class AutoAppConfig {
 
     //같은 빈 이름인데도 충돌이 안나는 이유는?
     //아래와같이 수동으로 등록한 빈이 자동 빈을 오버라이딩 해버린다
-    @Bean(name = "memoryMemberRepository")
-    MemberRepository memberRepository(){
-        return new MemoryMemberRepository();
-    }
+//    @Bean(name = "memoryMemberRepository")
+//    MemberRepository memberRepository(){
+//        return new MemoryMemberRepository();
+//    }
 }
