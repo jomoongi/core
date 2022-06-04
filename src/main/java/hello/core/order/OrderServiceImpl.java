@@ -4,10 +4,12 @@ import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
 import hello.core.member.MemoryMemberRepository;
+import lombok.RequiredArgsConstructor;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
+@RequiredArgsConstructor//lombok기능으로 자동으로 final로 지정해준것을 생성자로 만들어준다
 public class  OrderServiceImpl implements OrderService{
 
     //DI 주입방식 중 @Autowired private MemberRepository memberRepository; 이런 방식은 스프링에서만 실행해야 테스트가 가능하고
@@ -17,11 +19,12 @@ public class  OrderServiceImpl implements OrderService{
     private final MemberRepository memberRepository;
     private final DiscountPolicy discountPolicy;
  
-    @Autowired
-    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
-        this.memberRepository = memberRepository;
-        this.discountPolicy = discountPolicy;
-    }
+    //lombok 라이브러리를 사용하면서 필요없게된다 자동으로 생성해주니까
+//    @Autowired
+//    public OrderServiceImpl(MemberRepository memberRepository, DiscountPolicy discountPolicy) {
+//        this.memberRepository = memberRepository;
+//        this.discountPolicy = discountPolicy;
+//    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
