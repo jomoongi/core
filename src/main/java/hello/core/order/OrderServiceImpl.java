@@ -1,5 +1,6 @@
 package hello.core.order;
 
+import hello.core.annotation.MainDiscountPolicy;
 import hello.core.discount.DiscountPolicy;
 import hello.core.member.Member;
 import hello.core.member.MemberRepository;
@@ -9,7 +10,7 @@ import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Component;
 
 @Component
-@RequiredArgsConstructor//lombok기능으로 자동으로 final로 지정해준것을 생성자로 만들어준다
+//@RequiredArgsConstructor//lombok기능으로 자동으로 final로 지정해준것을 생성자로 만들어준다
 public class  OrderServiceImpl implements OrderService{
 
     //DI 주입방식 중 @Autowired private MemberRepository memberRepository; 이런 방식은 스프링에서만 실행해야 테스트가 가능하고
@@ -25,6 +26,13 @@ public class  OrderServiceImpl implements OrderService{
 //        this.memberRepository = memberRepository;
 //        this.discountPolicy = discountPolicy;
 //    }
+
+    //MainDiscountPolicy처럼 어노테이션을 만들어서 사용하면 Qualifier시 문자오류에대한 사전 예방을 할수있다
+    @Autowired
+    public OrderServiceImpl(MemberRepository memberRepository, @MainDiscountPolicy DiscountPolicy discountPolicy) {
+        this.memberRepository = memberRepository;
+        this.discountPolicy = discountPolicy;
+    }
 
     @Override
     public Order createOrder(Long memberId, String itemName, int itemPrice) {
