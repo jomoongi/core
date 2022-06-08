@@ -23,11 +23,13 @@ public class AllBeanTest {
 
         DiscountService discountService = ac.getBean(DiscountService.class);
         Member member = new Member(1L, "userA", Grade.VIP);
-        int discountPrice = discountService.discount(member);
+        int discountPrice = discountService.discount(member, 10000, "fixDiscountPolicy");
 
-        //조회한 빈이 모두 필요할 때, list,Map
-        //7:54
-//        assertThat(discountSerivce).is
+        assertThat(discountService).isInstanceOf(DiscountService.class);
+        assertThat(discountPrice).isEqualTo(1000);
+
+        int rateDiscountPrice = discountService.discount(member, 20000, "rateDiscountPolicy");
+        assertThat(rateDiscountPrice).isEqualTo(2000);
     }
 
     static class DiscountService{
@@ -42,8 +44,9 @@ public class AllBeanTest {
             System.out.println("policies = " + policies);
         }
 
-        public int discount(Member member) {
-            return 0;
+        public int discount(Member member, int price, String discountCode) {
+            DiscountPolicy discountPolicy = policyMap.get(discountCode);
+            return discountPolicy.discount(member, price);
         }
     }
 }
