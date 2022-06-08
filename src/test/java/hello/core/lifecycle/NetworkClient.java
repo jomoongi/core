@@ -1,5 +1,8 @@
 package hello.core.lifecycle;
 
+import javax.annotation.PostConstruct;
+import javax.annotation.PreDestroy;
+
 //InitializingBean,DisposableBean 요즘은 거의 사용하지않는다
 public class NetworkClient  {
 
@@ -27,13 +30,14 @@ public class NetworkClient  {
         System.out.println("close = " + url);
     }
 
-    //의존관계 주입이 끝나면 의 의미
+    @PostConstruct
     public void init() throws Exception {
         System.out.println("NetworkClient.init");
         connect();
         call("초기화 연결 메세지");
     }
 
+    @PreDestroy
     public void close() throws Exception {
         System.out.println("NetworkClient.close");
         disconnect();
