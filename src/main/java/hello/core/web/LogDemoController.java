@@ -14,19 +14,17 @@ import javax.servlet.http.HttpServletRequest;
 public class LogDemoController {
 
     private final LogDemoService logDemoService;
-    private final ObjectProvider<MyLogger> myLoggerProvider;
+    private final MyLogger myLogger;
 
     @RequestMapping("log-demo")
     @ResponseBody
     public String logDemo(HttpServletRequest request){
-        MyLogger myLogger = myLoggerProvider.getObject();
-        String uuid = myLogger.getUuid();
         String requestURL = request.getRequestURL().toString();
+        System.out.println("myLogger = " + myLogger.getClass());
         myLogger.setRequestURL(requestURL);
 
         myLogger.log("controller test");
-        System.out.println(uuid + " uuid 입니다");
-        logDemoService.logic("testId", uuid);
+        logDemoService.logic("testId");
         return "OK";
     }
 
