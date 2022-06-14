@@ -18,13 +18,17 @@ public class MyLogger {
         this.requestURL = requestURL;
     }
 
+    public String getUuid() {
+        return uuid;
+    }
+
     public void log(String message){
         System.out.println("[" + uuid + "]" + "[" + requestURL + "] " + message);
     }
 
     @PostConstruct
     public void init(){
-        String uuid = UUID.randomUUID().toString();
+        uuid = UUID.randomUUID().toString();
         System.out.println("[" + uuid + "] request scope bean create : " + this);
     }
 
