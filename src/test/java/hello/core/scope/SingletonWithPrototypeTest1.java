@@ -1,11 +1,14 @@
 package hello.core.scope;
 
 import org.junit.jupiter.api.Test;
+import org.springframework.beans.factory.ObjectProvider;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.context.annotation.AnnotationConfigApplicationContext;
 import org.springframework.context.annotation.Scope;
 
 import javax.annotation.PostConstruct;
 import javax.annotation.PreDestroy;
+import javax.inject.Provider;
 
 import static org.assertj.core.api.AssertionsForClassTypes.assertThat;
 
@@ -33,18 +36,18 @@ public class SingletonWithPrototypeTest1 {
 
         ClientBean clientBean2 = ac.getBean(ClientBean.class);
         int count2 = clientBean2.logic();
-        assertThat(count2).isEqualTo(2);
+        assertThat(count2).isEqualTo(1);
     }
 
     @Scope("singleton")//스프링은 기본이 싱글톤이기때문에 선언을 안해줘도 되지만 명확하게 하기위해서 작성함
     static class ClientBean{
-        private static PrototypeBean prototypeBean;//생성시점에 이미 주입이 되어있는것이다
 
-        public ClientBean(PrototypeBean prototypeBean) {//이때 PrototypeBean을 요청한다!!!
-            this.prototypeBean = prototypeBean;
-          }
+        @Autowired
+        private Provider<PrototypeBean> prototypeBeanProvider;
 
         public int logic(){
+            //getObject()를 호출할때 그때서야 스프링컨테이너에서 prototypeBean을 찾아서 반환해준다
+            PrototypeBean prototypeBean = prototypeBeanProvider.get();
             prototypeBean.addCount();
             int count = prototypeBean.getCount();
             return count;
@@ -65,7 +68,7 @@ public class SingletonWithPrototypeTest1 {
 
         @PostConstruct
         public void init(){
-            System.out.println("PrototypeBean.init " + this);
+            System.out.println("PrototypeBean.init :::::::::::::::::::::::::::: " + this);
         }
 
         @PreDestroy
